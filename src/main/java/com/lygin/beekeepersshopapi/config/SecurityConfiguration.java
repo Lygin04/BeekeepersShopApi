@@ -57,8 +57,8 @@ public class SecurityConfiguration {
                 //.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("api/admin/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("api/user/**").hasAnyAuthority(Role.ADMIN.name(), Role.BUYER.name(), Role.SELLER.name())
+                        .requestMatchers("/api/admin/**", "api/category/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/api/user/**").hasAnyAuthority(Role.ADMIN.name(), Role.BUYER.name(), Role.SELLER.name())
                         .anyRequest().authenticated()
                 )
                 //.httpBasic(Customizer.withDefaults())
