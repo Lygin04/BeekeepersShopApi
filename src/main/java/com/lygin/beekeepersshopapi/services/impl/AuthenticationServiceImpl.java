@@ -4,8 +4,11 @@ import com.lygin.beekeepersshopapi.dto.JwtAuthenticationResponse;
 import com.lygin.beekeepersshopapi.dto.RefreshTokenRequest;
 import com.lygin.beekeepersshopapi.dto.SignInRequest;
 import com.lygin.beekeepersshopapi.dto.SignUpRequest;
+import com.lygin.beekeepersshopapi.entity.Order;
+import com.lygin.beekeepersshopapi.entity.OrderStatus;
 import com.lygin.beekeepersshopapi.entity.Role;
 import com.lygin.beekeepersshopapi.entity.User;
+import com.lygin.beekeepersshopapi.repositories.OrderRepository;
 import com.lygin.beekeepersshopapi.repositories.UserRepository;
 import com.lygin.beekeepersshopapi.services.AuthenticationService;
 import com.lygin.beekeepersshopapi.services.JWTService;
@@ -27,6 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
+    private final OrderRepository orderRepository;
 
     public User signup(SignUpRequest signUpRequest){
         if(userRepository.findByEmail(signUpRequest.getEmail()).isEmpty())
@@ -40,6 +44,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setRole(Role.BUYER);
         else if(signUpRequest.getRole().equals("SELLER"))
             user.setRole(Role.SELLER);
+
+        Order order = new Order();
+        order.setAmount(0L);
+        order.setTotalAmount(0L);
+        order.setDiscount(0L);
+        order.setUser(user);
+        order.setOrderStatus(OrderStatus.Pending);
+        orderRepository.save(order);
 
         return userRepository.save(user);
     }
