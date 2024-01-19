@@ -37,14 +37,28 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
 
+   /* @Bean
+    public WebMvcConfigurer corsConfig(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.DELETE.name(),
+                                HttpMethod.PUT.name())
+                        .allowedHeaders(HttpHeaders.CONTENT_TYPE, HttpHeaders.AUTHORIZATION);
+            }
+        };
+    }*/
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                //.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/api/user/**").hasAnyAuthority(Role.ADMIN.name(), Role.BUYER.name(), Role.SELLER.name())
+                        .requestMatchers("api/admin/**").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("api/user/**").hasAnyAuthority(Role.ADMIN.name(), Role.BUYER.name(), Role.SELLER.name())
                         .anyRequest().authenticated()
                 )
                 //.httpBasic(Customizer.withDefaults())
@@ -56,18 +70,18 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
+    /*@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
-        config.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedMethods(List.of("*"));
+        config.setAllowedHeaders(List.of("*"));
 
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
         return source;
-    }
+    }*/
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
