@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final OrderRepository orderRepository;
 
     public User signup(SignUpRequest signUpRequest){
-        if(userRepository.findByEmail(signUpRequest.getEmail()).isEmpty())
+        if(userRepository.findByEmail(signUpRequest.getEmail()).isPresent())
             throw new UsernameNotFoundException("user with such an email already exists");
         User user = new User();
         user.setFirstname(signUpRequest.getFirstname());
@@ -51,9 +51,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         order.setDiscount(0L);
         order.setUser(user);
         order.setOrderStatus(OrderStatus.Pending);
+
+        User newUser = userRepository.save(user);
         orderRepository.save(order);
 
-        return userRepository.save(user);
+        return newUser;
     }
 
     public JwtAuthenticationResponse signin(SignInRequest signInRequest){
@@ -70,6 +72,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         jwtAuthenticationResponse.setToken(jwt);
         jwtAuthenticationResponse.setRefreshToken(refreshToken);
         jwtAuthenticationResponse.setUserRole(user.getRole().name());
+        jwtAuthenticationResponse.setUserId(user.getId());
 
         return jwtAuthenticationResponse;
     }

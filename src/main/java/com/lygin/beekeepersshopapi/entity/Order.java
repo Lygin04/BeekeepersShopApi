@@ -31,5 +31,5 @@ public class Order {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<CardItems> cardItemsList;
+    private List<CartItems> cartItems;
 }

@@ -1,5 +1,6 @@
 package com.lygin.beekeepersshopapi.entity;
 
+import com.lygin.beekeepersshopapi.dto.CartItemsDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -7,7 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
-public class CardItems {
+public class CartItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +28,17 @@ public class CardItems {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    public CartItemsDto getCartDto(){
+        CartItemsDto cartItemsDto = new CartItemsDto();
+        cartItemsDto.setId(id);
+        cartItemsDto.setPrice(price);
+        cartItemsDto.setQuality(quality);
+        cartItemsDto.setProductId(product.getId());
+        cartItemsDto.setUserId(user.getId());
+        cartItemsDto.setProductName(product.getName());
+        cartItemsDto.setReturnedImg(product.getImg());
+
+        return cartItemsDto;
+    }
 }
