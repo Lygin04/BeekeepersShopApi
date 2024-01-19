@@ -22,7 +22,7 @@ public class Product {
     private String description;
 
     @Lob
-    @Column(columnDefinition = "bytea")
+    //@Column(columnDefinition = "bytea")
     private byte[] img;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
