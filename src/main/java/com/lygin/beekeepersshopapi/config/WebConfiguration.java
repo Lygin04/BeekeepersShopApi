@@ -22,7 +22,8 @@ public class WebConfiguration {
                                         HttpMethod.DELETE.name(),
                                         HttpMethod.PUT.name())
                         .allowedHeaders(HttpHeaders.AUTHORIZATION,
-                                        HttpHeaders.CONTENT_TYPE);
+                                        HttpHeaders.CONTENT_TYPE,
+                                        HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN);
             }
         };
     }

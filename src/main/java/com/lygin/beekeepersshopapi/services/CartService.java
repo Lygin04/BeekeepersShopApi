@@ -7,4 +7,6 @@ import org.springframework.http.ResponseEntity;
 public interface CartService {
     ResponseEntity<?> addProduct(AddProductCartDto addProductCartDto);
     OrderDto getCartByUserId(Long id);
+    OrderDto applyCoupon(Long userId, String code);
+
 }

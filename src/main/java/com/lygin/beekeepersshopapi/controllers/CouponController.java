@@ -1,5 +1,6 @@
 package com.lygin.beekeepersshopapi.controllers;
 
+import com.lygin.beekeepersshopapi.dto.OrderDto;
 import com.lygin.beekeepersshopapi.entity.Coupon;
 import com.lygin.beekeepersshopapi.exceptions.ValidationException;
 import com.lygin.beekeepersshopapi.services.CouponService;
